@@ -1,0 +1,132 @@
+//Database Schema
+@startuml
+Title Vendor Application Inventory Platform Databse Schema
+entity "Vendor" {
+  *id : integer
+  --
+  *name : string
+  *website : string
+}
+
+entity "Product" {
+  *id : integer
+  --
+  *name : string
+  vendor_id : integer
+}
+
+entity "Document" {
+  *id : integer
+  --
+  *title : string
+  *file_path : string
+  product_id : integer
+}
+
+Vendor ||--o{ Product : has
+Product ||--o{ Document : contains
+@enduml
+
+
+//UI Layout
+@startuml
+Title Vendor Application Inventory Platform UI
+left to right direction
+skinparam packageStyle rectangle
+rectangle "Login Page" {
+  [Username Field]
+  [Password Field]
+  [Login Button]
+}
+rectangle "Vendor List Page" {
+  [Vendor Table]
+  [Details Button]
+  [Add New Vendor Button]
+}
+rectangle "Document List Page" {
+  [Document Table]
+  [View Document Button]
+  [Add New Document Button]
+}
+@enduml
+
+
+//Use Case Diagram
+@startuml 'Use Case Diagram for Vendor Application Inventory Platform'
+left to right direction
+skinparam packageStyle rectangle
+
+actor User as user
+actor Admin as admin
+
+rectangle "Vendor Application Inventory Platform" {
+  user --> (Login)
+  user --> (Search for Vendors)
+  user --> (View Vendor Details)
+  user --> (View Documents)
+
+  admin --> (Login)
+  admin --> (Add New Vendor)
+  admin --> (Update Vendor Information)
+  admin --> (Delete Vendor)
+  admin --> (Add Document)
+  admin --> (Delete Document)
+}
+
+@enduml
+
+
+
+//Activity Diagram
+@startuml 
+Title Activity Diagram for Adding New Vendor
+start
+:Login as Admin;
+:Access Vendor Management;
+if (Is new vendor?) then (yes)
+  :Fill in Vendor Details;
+  :Submit Vendor Information;
+else (no)
+  :Cancel Operation;
+endif
+:Logout;
+stop
+@enduml
+
+
+//Flowchart
+@startuml 
+Title Flowchart for Document Search Process
+start
+:Enter Search Query;
+if (Valid query?) then (yes)
+  :Query Database for Documents;
+  if (Documents Found?) then (yes)
+    :Display Documents;
+  else (no)
+    :Display "No Documents Found";
+  endif
+else (no)
+  :Prompt for a Valid Query;
+endif
+stop
+@enduml
+
+
+//Sequence Diagram
+@startuml 
+Title Sequence Diagram for Vendor Details Viewing
+actor User as user
+participant "Search Interface" as search
+database "Database" as db
+participant "Vendor Details Page" as details
+
+user -> search: Enter search criteria
+search -> db: Query Vendor Information
+db -> search: Return Vendor List
+search -> user: Display Vendor List
+user -> search: Select Vendor
+search -> db: Query Selected Vendor Details
+db -> details: Vendor Details
+details -> user: Display Vendor Details
+@enduml

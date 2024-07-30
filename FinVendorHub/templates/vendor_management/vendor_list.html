@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="my-3">
+    <h2>Vendors</h2>
+    <a href="{% url 'vendor_create' %}" class="btn btn-success">Add New Vendor</a>
+    <ul class="list-unstyled mt-3">
+        {% for vendor in vendors %}
+        <li class="mb-2">
+            <strong>{{ vendor.name }}</strong> - <a href="{{ vendor.website }}">{{ vendor.website }}</a>
+            <div>
+                <a href="{% url 'vendor_detail' vendor.pk %}" class="btn btn-info btn-sm">Details</a>
+                <a href="{% url 'vendor_update' vendor.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                <a href="{% url 'vendor_delete' vendor.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
